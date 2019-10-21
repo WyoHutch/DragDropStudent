@@ -30,5 +30,5 @@ def dataread():
             print('From: ' + p['from'])
             print('')
 
-datawrite()
 dataread()
+datawrite()
