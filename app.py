@@ -44,7 +44,7 @@ def add_student():
 
     return single_jschema.jsonify(Student.query.get(new_student.id))
 
-@app.route('/Students', methods=['GET'])
+@app.route('/students', methods=['GET'])
 def get_Students():
     all_students = Student.query.all()
     return jsonify(plural_jschema.dump(all_students))
@@ -73,9 +73,5 @@ def delete_student(id):
     all_students = Student.query.all()
     return jsonify(plural_jschema.dump(all_students))
 
-name = "Hayley"
-team = 1
-
-add_student
 if __name__ == '__main__':
     app.run(debug = True)
