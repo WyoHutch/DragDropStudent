@@ -21,7 +21,8 @@ class Student(db.Model):
     name = db.Column(db.String(20), unique = False)
     team = db.Column(db.String(20), unique = False)
 
-    def __init__(self, name, team):
+    def __init__(self, id, name, team):
+        self.id = id
         self.name = name
         self.team = team
 
@@ -32,18 +33,6 @@ class StudentSchema(ma.Schema):
 single_jschema = StudentSchema()
 plural_jschema = StudentSchema(many = True)
 
-@app.route('/student', methods=['POST'])
-def add_student():
-    name = request.json["name"]
-    team = request.json["team"]
-
-    new_student = Student(name, team)
-
-    db.session.add(new_student)
-    db.session.commit()
-
-    return single_jschema.jsonify(Student.query.get(new_student.id))
-
 @app.route('/students', methods=['GET'])
 def get_Students():
     all_students = Student.query.all()
@@ -53,6 +42,19 @@ def get_Students():
 def return_student(id):
     student = Student.query.get(id)
     return jsonify(single_jschema.dump(student))
+
+@app.route('/student', methods=['POST'])
+def add_student():
+    id = request.json["id"]
+    name = request.json["name"]
+    team = request.json["team"]
+
+    new_student = Student(id, name, team)
+
+    db.session.add(new_student)
+    db.session.commit()
+
+    return single_jschema.jsonify(Student.query.get(new_student.id))
 
 @app.route('/student/<id>', methods=['PUT'])
 def update_student(id):
