@@ -21,8 +21,7 @@ class Student(db.Model):
     name = db.Column(db.String(20), unique = False)
     team = db.Column(db.String(20), unique = False)
 
-    def __init__(self, id, name, team):
-        self.id = id
+    def __init__(self, name, team):
         self.name = name
         self.team = team
 
@@ -45,11 +44,10 @@ def return_student(id):
 
 @app.route('/student', methods=['POST'])
 def add_student():
-    id = request.json["id"]
     name = request.json["name"]
     team = request.json["team"]
 
-    new_student = Student(id, name, team)
+    new_student = Student(name, team)
 
     db.session.add(new_student)
     db.session.commit()
