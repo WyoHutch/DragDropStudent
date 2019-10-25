@@ -46,20 +46,20 @@ def return_student(id):
 def add_student():
     name = request.json["name"]
     team = request.json["team"]
-
     new_student = Student(name, team)
 
     db.session.add(new_student)
     db.session.commit()
-
     return single_jschema.jsonify(Student.query.get(new_student.id))
 
-@app.route('/student/<id>', methods=['PUT'])
-def update_student(id):
+@app.route('/saveStudents/<id>', methods=['PATCH'])
+def save_students(id):
     student = Student.query.get(id)
-
-    student.name = request.json('name')
-    student.team = request.json('team')
+    studentArr = []
+    for value in request.json.values():
+        studentArr.append(value)
+    
+    student.team = studentArr[0]
 
     db.session.commit()
     return single_jschema.jsonify(student)
